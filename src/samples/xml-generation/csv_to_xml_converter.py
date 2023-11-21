@@ -20,7 +20,12 @@ class CSVtoXMLConverter:
         # read countries
         countries = self._reader.read_entities(
             attr="nationality",
-            builder=lambda row: Country(row["nationality"])
+            builder=lambda row: Country(
+                country = row["nationality"],
+                location = str(0),
+                latitude = str(0),
+                longitude = str(0) 
+            )
         )
 
         # read teams

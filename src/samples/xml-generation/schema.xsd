@@ -1,12 +1,14 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-  <xs:element name="Football">
+  <xs:element name="Jobs">
     <xs:complexType>
       <!-- Define the structure of the Football element -->
       <!-- You may need to customize this based on your actual XML structure -->
       <xs:sequence>
-        <xs:element name="Teams" type="xs:anyType" minOccurs="0"/>
+        <xs:element name="Companies" type="xs:anyType" minOccurs="0"/>
+        <!-- <xs:element name="JobPortals" type="xs:anyType" minOccurs="0"/>
         <xs:element name="Countries" type="xs:anyType" minOccurs="0"/>
+        <xs:element name="Persons" type="xs:anyType" minOccurs="0"/> -->
       </xs:sequence>
     </xs:complexType>
   </xs:element>

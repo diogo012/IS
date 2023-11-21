@@ -14,8 +14,10 @@ class Person:
         el.set("id", str(self._id))
         el.set("contactPerson", self._contactPerson)
         el.set("contact", self._contact)
-
         return el
+
+    def get_id(self):
+        return self._id
 
     def __str__(self):
         return f"contact:{self._contact}, contactPerson:{self._contactPerson}, id:{self._id}"
