@@ -7,11 +7,14 @@ from entities.country import Country
 from entities.team import Team
 from entities.player import Player
 
+from lxml import etree
+
 
 class CSVtoXMLConverter:
 
-    def __init__(self, path):
+    def __init__(self, path, schema_path):
         self._reader = CSVReader(path)
+        self._schema_path = schema_path
 
     def to_xml(self):
         # read countries
@@ -63,3 +66,19 @@ class CSVtoXMLConverter:
         dom = md.parseString(xml_str)
         return dom.toprettyxml()
 
+    # ------- Validar
+    def validate_xml(self, xml_str):
+        schema = etree.XMLSchema(file=self._schema_path)
+        xml_parser = etree.XMLParser(schema=schema)
+
+        try:
+            etree.fromstring(xml_str, xml_parser)
+            print("XML is valid against the schema.")
+        except etree.XMLSyntaxError as e:
+            print("XML is not valid against the schema.")
+            print(e)
+
+    def to_xml_str_and_validate(self):
+        xml_str = self.to_xml_str()
+        self.validate_xml(xml_str)
+        return xml_str

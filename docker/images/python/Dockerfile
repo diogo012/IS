@@ -7,6 +7,9 @@ RUN apk add nodejs npm
 RUN npm install -g npm@10.2.1
 RUN npm install -g nodemon
 
+# Install system dependencies for lxml build
+RUN apk --no-cache add libxml2 libxml2-dev libxslt libxslt-dev gcc musl-dev
+
 # upgrade pip
 RUN python -m pip install --upgrade pip
 
