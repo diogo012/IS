@@ -57,12 +57,12 @@ class CSVtoXMLConverter:
         for team in teams.values():
             teams_el.append(team.to_xml())
 
-        countries_el = ET.Element("Countries")
+        """ countries_el = ET.Element("Countries")
         for country in countries.values():
-            countries_el.append(country.to_xml())
+            countries_el.append(country.to_xml()) """
 
         root_el.append(teams_el)
-        root_el.append(countries_el)
+        """ root_el.append(countries_el) """
 
         return root_el
 
@@ -86,4 +86,4 @@ class CSVtoXMLConverter:
     def to_xml_str_and_validate(self):
         xml_str = self.to_xml_str()
         self.validate_xml(xml_str)
-        return xml_str
+        """ return xml_str """

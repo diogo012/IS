@@ -24,7 +24,7 @@ class Country:
         return self._id
 
     def __str__(self):
-        return f"longitude: {self._longitude}, latitude:{self._latitude}, location: {self._location}, country: {self._country}, id:{self._id}"
+        return f"longitude:{self._longitude}, latitude:{self._latitude}, location: {self._location}, country: {self._country}, id:{self._id}"
 
 
 Country.counter = 0

@@ -61,24 +61,24 @@ class CSVtoXMLConverter:
             attr="Company",
             builder=lambda row: Company(
                 company = row["Company"],
-                companyProfile = row["Company Profile"],
                 companySize = row["Company Size"],
-                benefits = row["Benefits"]
+                benefits = row["Benefits"],
+                country = countries[row["Country"]]
             )
         )
 
-        # read players
+        # read role
         def after_creating_role(role, row):
             # add the role to the appropriate company
-            companies[row["Company"]].add_role(role)
+            jobportals[row["Job Portal"]].add_role(role)
 
         self._reader.read_entities(
             attr="Role",
             builder=lambda row: Role(
                 role=row["Role"],
                 salaryRange=row["Salary Range"],
-                responsabilities=["Responsabilities"],
-                jobPortal=jobportals[row["Job Portal"]]
+                responsabilities=["Responsibilities"],
+                company=companies[row["Company"]]
             ),
             after_create=after_creating_role
         )
@@ -86,13 +86,13 @@ class CSVtoXMLConverter:
         # generate the final xml
         root_el = ET.Element("Jobs")
 
-        companies_el = ET.Element("Companies")
-        for company in companies.values():
-            companies_el.append(company.to_xml())
-        
-        """ jobportals_el = ET.Element("JobPortals")
+        jobportals_el = ET.Element("JobPortals")
         for jobportal in jobportals.values():
             jobportals_el.append(jobportal.to_xml())
+
+        """ companies_el = ET.Element("Companies")
+        for company in companies.values():
+            companies_el.append(company.to_xml())
         
         countries_el = ET.Element("Countries")
         for country in countries.values():
@@ -102,7 +102,7 @@ class CSVtoXMLConverter:
         for person in persons.values():
             persons_el.append(person.to_xml()) """
 
-        root_el.append(companies_el)
+        root_el.append(jobportals_el)
         """ root_el.append(jobportals_el)
         root_el.append(countries_el)
         root_el.append(persons_el) """
@@ -129,4 +129,4 @@ class CSVtoXMLConverter:
     def to_xml_str_and_validate(self):
         xml_str = self.to_xml_str()
         self.validate_xml(xml_str)
-        return xml_str
+        """ return xml_str """

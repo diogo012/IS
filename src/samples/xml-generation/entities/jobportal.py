@@ -1,5 +1,5 @@
 import xml.etree.ElementTree as ET
-
+from entities.role import Role
 
 class JobPortal:
 
@@ -16,6 +16,10 @@ class JobPortal:
         self._preference = preference
         self._jobPostingDate = jobPostingDate
         self._personId = personId
+        self._roles = []
+
+    def add_role(self, role: Role):
+        self._roles.append(role)
 
     def to_xml(self):
         el = ET.Element("JobPortal")
@@ -30,6 +34,14 @@ class JobPortal:
         el.set("preference", self._preference)
         el.set("jobPostingDate", self._jobPostingDate)
         el.set("person_ref", str(self._personId.get_id()))
+
+        roles_el = ET.Element("roles")
+        for role in self._roles:
+            roles_el.append(role.to_xml())
+
+        el.append(roles_el)
+        
+
         return el
 
     def get_id(self):
