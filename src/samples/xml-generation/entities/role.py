@@ -15,13 +15,20 @@ class Role:
         el = ET.Element("Role")
         el.set("id", str(self._id))
         el.set("role", self._role)
-        el.set("salaryRanges", self._salaryRange)
-        el.set("responsabilities", self._responsabilities)
+        el.set("salaryRange", self._salaryRange)
         el.set("company_ref", str(self._company.get_id()))
+
+
+        responsibilities_el = ET.SubElement(el, "Responsabilities")
+        responsibilities_el.text = self._responsabilities
+
         return el
 
+    def get_id(self):
+        return self._id
+    
     def __str__(self):
-        return f"role:{self._role}, salaryRange:{self._salaryRange}, responsabilities:{self._responsabilities}, company:{self._company}"
+        return f"role:{self._role}, salaryRange:{self._salaryRange}, Responsibilities:{self._responsabilities}, company:{self._company}"
 
 
 Role.counter = 0

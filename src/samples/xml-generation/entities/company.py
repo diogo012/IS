@@ -15,8 +15,12 @@ class Company:
         el.set("id", str(self._id))
         el.set("company", self._company)
         el.set("companySize", self._companySize)
-        el.set("benefits", self._benefits)
-        el.set("country", str(self._country.get_id()))
+        el.set("country_ref", str(self._country.get_id()))
+
+        cleaned_benefits = self._benefits.replace('{', '').replace('}', '').replace("'",'')
+
+        benefits_el = ET.SubElement(el, "Benefits")
+        benefits_el.text = cleaned_benefits
         return el
     
     def get_id(self):

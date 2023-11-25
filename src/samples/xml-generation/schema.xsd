@@ -2,17 +2,113 @@
 
   <xs:element name="Jobs">
     <xs:complexType>
-      <!-- Define the structure of the Football element -->
-      <!-- You may need to customize this based on your actual XML structure -->
       <xs:sequence>
-        <xs:element name="JobPortals" type="xs:anyType" minOccurs="0"/>
-        <!-- <xs:element name="JobPortals" type="xs:anyType" minOccurs="0"/>
-        <xs:element name="Countries" type="xs:anyType" minOccurs="0"/>
-        <xs:element name="Persons" type="xs:anyType" minOccurs="0"/> -->
+        <xs:element name="JobPortals" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="JobPortal" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Jobs" minOccurs="0" maxOccurs="1">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="Job" minOccurs="0" maxOccurs="unbounded">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="Description" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+                                </xs:element>
+                                <xs:element name="Skills" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+                                </xs:element>
+                              </xs:sequence>
+                              <xs:attribute name="id" type="xs:integer" use="required"/>
+                              <xs:attribute name="jobTitle" type="xs:string" use="required"/>
+                              <xs:attribute name="experience" type="xs:string" use="required"/>
+                              <xs:attribute name="workType" type="xs:string" use="required"/>
+                              <xs:attribute name="qualifications" type="xs:string" use="required"/>
+                              <xs:attribute name="preference" type="xs:string" use="required"/>
+                              <xs:attribute name="jobPostingDate" type="xs:string" use="required"/>
+                              <xs:attribute name="person_ref" type="xs:integer" use="required"/>
+                              <xs:attribute name="role_ref" type="xs:integer" use="required"/>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="id" type="xs:integer" use="required"/>
+                  <xs:attribute name="jobPortal" type="xs:string" use="required"/>
+                  <!-- Adicione mais atributos conforme necessário -->
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Companies" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Company" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Benefits" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="id" type="xs:integer" use="required"/>
+                  <xs:attribute name="company" type="xs:string" use="required"/>
+                  <xs:attribute name="companySize" type="xs:string" use="required"/>
+                  <xs:attribute name="country_ref" type="xs:string" use="required"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Countries" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Country" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:attribute name="id" type="xs:integer" use="required"/>
+                  <xs:attribute name="country" type="xs:string" use="required"/>
+                  <xs:attribute name="location" type="xs:string" use="required"/>
+                  <xs:attribute name="latitude" type="xs:string" use="required"/>
+                  <xs:attribute name="longitude" type="xs:string" use="required"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Roles" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Role" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Responsabilities" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="id" type="xs:integer" use="required"/>
+                  <xs:attribute name="role" type="xs:string" use="required"/>
+                  <xs:attribute name="salaryRange" type="xs:string" use="required"/>
+                  <xs:attribute name="company_ref" type="xs:string" use="required"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+         <xs:element name="Persons" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Person" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:attribute name="id" type="xs:integer" use="required"/>
+                  <xs:attribute name="contactPerson" type="xs:string" use="required"/>
+                  <xs:attribute name="contact" type="xs:string" use="required"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-
-  <!-- Add more complex types and elements based on your actual XML structure -->
 
 </xs:schema>
