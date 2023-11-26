@@ -6,9 +6,7 @@ CREATE TABLE public.imported_documents (
 	updated_on      TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
-BEGIN;
-COPY imported_documents(xml) FROM '/data/jobdescriptions.xml' WITH (FORMAT XML);
-COMMIT;
+/* COPY imported_documents(xml) FROM '/../volumes/data/jobdescriptions.xml'; */
 
 /* 
 CREATE TABLE public.teachers (

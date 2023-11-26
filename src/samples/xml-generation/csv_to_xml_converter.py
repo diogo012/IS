@@ -127,7 +127,8 @@ class CSVtoXMLConverter:
     def to_xml_str(self):
         xml_str = ET.tostring(self.to_xml(), encoding='utf8', method='xml').decode() 
         dom = md.parseString(xml_str)
-        return dom.toprettyxml() 
+        return dom.toprettyxml()
+     
     #Escrever para ficheiro xml
     def write_to_xml_file(self, output_file):
         xml_tree = self.to_xml()
