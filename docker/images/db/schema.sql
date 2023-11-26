@@ -6,16 +6,6 @@ CREATE TABLE public.imported_documents (
 	updated_on      TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
-/* -- Ler o conteúdo do arquivo XML
-DO $$ 
-DECLARE 
-    xml_content XML;
-BEGIN
-    xml_content := XMLPARSE(DOCUMENT convert_from(pg_read_binary_file('data/jobdescriptions.xml'), 'UTF8'));
-    INSERT INTO imported_documents (file_name, xml) VALUES ('exemplo.xml', xml_content);
-END $$;
- */
-
 CREATE TABLE public.teachers (
 	name    VARCHAR (100),
 	city    VARCHAR(100),
