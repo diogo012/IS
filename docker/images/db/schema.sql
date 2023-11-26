@@ -6,6 +6,11 @@ CREATE TABLE public.imported_documents (
 	updated_on      TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
+BEGIN;
+COPY imported_documents(xml) FROM '/data/jobdescriptions.xml' WITH (FORMAT XML);
+COMMIT;
+
+/* 
 CREATE TABLE public.teachers (
 	name    VARCHAR (100),
 	city    VARCHAR(100),
@@ -14,4 +19,4 @@ CREATE TABLE public.teachers (
 );
 
 INSERT INTO teachers(name, city) VALUES('Luís Teófilo', 'Porto');
-INSERT INTO teachers(name, city) VALUES('Jorge Ribeiro', 'Braga');
+INSERT INTO teachers(name, city) VALUES('Jorge Ribeiro', 'Braga'); */

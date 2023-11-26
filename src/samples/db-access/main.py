@@ -1,8 +1,5 @@
-import time
 import psycopg2
 
-print("Waiting for the database to initialize...")
-time.sleep(10)  # Adjust the delay as needed
 
 connection = None
 cursor = None
