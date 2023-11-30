@@ -1,16 +1,19 @@
 import psycopg2
 from psycopg2.extras import execute_values
 import xml.etree.ElementTree as ET
-from xml.sax.saxutils import escape
 
 # Function to read XML file
 def read_xml_file(file_path):
     with open(file_path, 'r', encoding='utf-8') as file:
         xml_content = file.read()
-    return escape(xml_content)
+    return xml_content
 
 # Connect to the database
-connection = psycopg2.connect(user="is", password="is", host="is-db", port="5432", database="is")
+connection = psycopg2.connect(user="is", 
+                              password="is", 
+                              host="is-db", 
+                              port="5432", 
+                              database="is")
 cursor = connection.cursor()
 
 try:
