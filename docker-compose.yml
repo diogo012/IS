@@ -15,6 +15,9 @@ services:
       - "./src/rpc-server:/app"
     depends_on:
       - db
+    ports:
+      - "9000:9000"
+    
 
   rpc-client:
     container_name: is-rpc-client
@@ -24,6 +27,8 @@ services:
       - "./docker/volumes/data:/data"
     depends_on:
       - rpc-server
+    stdin_open: true
+
 
   sample-db-access:
     container_name: is-db-access
