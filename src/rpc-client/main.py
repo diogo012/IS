@@ -17,7 +17,7 @@ def main():
         option = str(input("Select option: "))
 
         if option == '1':
-            # Pesquisa logic
+            # All xml´s
             print(f" > {server.select_xml_from_database()}")
             pass
         
@@ -28,17 +28,17 @@ def main():
         
         elif option == '3':
             # Search by job
-            # Example XPath query
             xpath_jobTitle = str(input("Job Title: "))
             print(f" > {server.xpath_query_2(xpath_jobTitle)}")
             pass
         
         elif option == '4':
-            # Ordenação logic
+            # Group By 
+            
             pass
         
         elif option == '5':
-            # Intercambio logic
+            # Order By 
             pass
         
         elif option == '0':
