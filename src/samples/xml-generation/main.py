@@ -4,7 +4,7 @@ from csv_to_xml_converter import CSVtoXMLConverter
 if __name__ == "__main__":
     #converter = CSVtoXMLConverter("/data/sample_dataset.csv")
     # Create an instance of CSVtoXMLConverter
-    converter = CSVtoXMLConverter("/data/Small_job_descriptions2.csv","schema.xsd")
+    converter = CSVtoXMLConverter("/data/Small_job_descriptions.csv","schema.xsd")
     """ converter = CSVtoXMLConverter("/data/sample_dataset.csv","schema.xsd") """
 
     # Generate the XML string and validate it against the schema
