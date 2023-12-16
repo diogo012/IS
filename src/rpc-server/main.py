@@ -16,7 +16,56 @@ def connect_to_database():
     )
 
 
-# Function to select XML data from the database
+# Function to insert XML data to the database
+def insert_xml_to_database():
+    try:
+        # Connect to the database
+        connection = connect_to_database()
+        cursor = connection.cursor()
+
+        try:
+            # Assuming your table structure includes 'id', 'file_name', and 'xml' columns
+            query = ("INSERT INTO public.imported_documents (file_name, xml) VALUES (%s, %s) RETURNING id;")
+            cursor.execute(query, (os.path.basename('ExemploXML'), xml_data))
+            new_document_id = cursor.fetchone()[0]
+            connection.commit()
+
+            return f"XML data inserted successfully with document ID: {new_document_id}"
+
+        except Exception as error:
+            connection.rollback()
+            return f"Failed to insert data: {error}"
+
+        finally:
+            if connection:
+                cursor.close()
+                connection.close()
+
+    except Exception as error:
+        return f"Error: {error}"
+            
+# Function to delete XML data from the database
+def delete_xml_from_database(file_name):
+    file_name = str(file_name)
+
+    connection = connect_to_database()
+    cursor = connection.cursor()
+    
+    try:
+        cursor.execute("DELETE FROM public.imported_documents WHERE file_name = %s;", (file_name,))
+        connection.commit()  # Commit the changes after DELETE
+        return "Deletion successful"
+
+    except Exception as error:
+        return f"Failed to delete data: {error}"
+
+    finally:
+        if connection:
+            cursor.close()
+            connection.close()
+
+            
+    # Function to select XML data from the database
 def select_xml_from_database():
     connection = connect_to_database()
     cursor = connection.cursor()
@@ -47,6 +96,7 @@ def execute_query(cursor, query):
 
 
 # Function to perform an XPath query on the database
+# QUERY - All jobPortals and respective jobs
 def xpath_query_1():
     connection = connect_to_database()
     cursor = connection.cursor()
@@ -64,7 +114,7 @@ def xpath_query_1():
             cursor.close()
             connection.close()
 
-
+# QUERY - Search by job
 def xpath_query_2(xpath_jobTitle):
     connection = connect_to_database()
     cursor = connection.cursor()
@@ -108,6 +158,42 @@ def xpath_query_2(xpath_jobTitle):
         if connection:
             cursor.close()
             connection.close()
+    
+    # QUERY - Group By Roles.Company_Ref and Order by Roles.Roles.Company_Ref
+def xpath_query_3():
+    connection = connect_to_database()
+    cursor = connection.cursor()
+
+    try:
+        query = f"SELECT x.company_ref AS Role_Company, y.company_name AS Company_Name, STRING_AGG(DISTINCT x.role_name, ', ') AS Role_Names FROM public.imported_documents, LATERAL xmltable('/Jobs/Roles/Role' PASSING xml COLUMNS company_ref text PATH '@company_ref', role_name text PATH '@role') AS x, LATERAL (SELECT company_name FROM xmltable('/Jobs/Companies/Company' PASSING xml COLUMNS company_name text PATH '@company', company_id text PATH '@id') AS y WHERE CAST(y.company_id AS INTEGER) = CAST(x.company_ref AS INTEGER) LIMIT 1) AS y GROUP BY Role_Company, Company_Name ORDER BY CAST(x.company_ref AS INTEGER) ASC;"
+        result = execute_query(cursor, query)
+        return result
+
+    except Exception as error:
+        raise f"Failed to fetch data: {error}"
+
+    finally:
+        if connection:
+            cursor.close()
+            connection.close()
+            
+    # QUERY - Order By Roles
+def xpath_query_4():
+    connection = connect_to_database()
+    cursor = connection.cursor()
+
+    try:
+        query = f"SELECT unnest(xpath('/Jobs/Roles/Role/@role', xml))::text AS Role_Name, unnest(xpath('/Jobs/Roles/Role/@salaryRange', xml))::text AS Salary_Range FROM public.imported_documents ORDER BY Role_Name ASC;"
+        result = execute_query(cursor, query)
+        return result
+
+    except Exception as error:
+        raise f"Failed to fetch data: {error}"
+
+    finally:
+        if connection:
+            cursor.close()
+            connection.close()
 
 
 # Set up the XML-RPC server
@@ -115,11 +201,15 @@ with SimpleXMLRPCServer(("0.0.0.0", 9000), requestHandler=RequestHandler) as ser
     server.register_introspection_functions()
 
     # Register functions
+    server.register_function(insert_xml_to_database)
+    server.register_function(delete_xml_from_database)
     server.register_function(select_xml_from_database)
 
     # Register the XPath query function
-    server.register_function(xpath_query_1)
+    server.register_function(xpath_query_1, "xpath_query_1")
     server.register_function(xpath_query_2, "xpath_query_2")
+    server.register_function(xpath_query_3, "xpath_query_3")
+    server.register_function(xpath_query_4, "xpath_query_4")
 
     # Start the server
     print("Starting the RPC Server...")
